@@ -1,0 +1,106 @@
+/* ============================================================
+   ALTIRA AI — DESIGN TOKENS
+   Single source of truth. Changing a token = global update.
+   ============================================================ */
+
+:root {
+  /* ---------- COLOR ----------
+     Black is the ground. Blue is an accent only — used on specific words,
+     icons, primary CTA, hover glows, and the single hero atmospheric glow. */
+  --color-bg-deep:  #000000;
+  --color-bg-base:  #000000;
+  --color-bg-mid:   #070707;
+  --color-bg-card:  rgba(255, 255, 255, 0.015);
+
+  --color-text-primary:   #FFFFFF;
+  --color-text-secondary: rgba(255, 255, 255, 0.72);
+  --color-text-muted:     rgba(255, 255, 255, 0.48);
+  --color-text-dim:       rgba(255, 255, 255, 0.28);
+
+  --color-accent:              #78B4F0;
+  --color-accent-dim:          rgba(120, 180, 240, 0.65);
+  --color-accent-glow-strong:  rgba(120, 180, 240, 0.35);
+  --color-accent-glow:         rgba(120, 180, 240, 0.18);
+  --color-accent-glow-soft:    rgba(120, 180, 240, 0.08);
+
+  --color-border:        rgba(255, 255, 255, 0.08);
+  --color-border-strong: rgba(255, 255, 255, 0.16);
+  --color-divider:       rgba(255, 255, 255, 0.05);
+
+  /* ---------- GRADIENT ---------- */
+  --gradient-base: #000000;
+  --gradient-atmos: radial-gradient(ellipse 900px 500px at 50% 35%, rgba(120, 180, 240, 0.10), transparent 65%);
+  --gradient-hero-overlay: radial-gradient(ellipse 800px 420px at var(--mx, 50%) var(--my, 30%), rgba(120, 180, 240, 0.10), transparent 60%);
+
+  /* ---------- TYPOGRAPHY ---------- */
+  --font-sans: 'Space Grotesk', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --fs-micro:   0.6875rem;  /* 11px  — mono meta */
+  --fs-small:   0.8125rem;  /* 13px  — mono labels */
+  --fs-body:    1rem;       /* 16px  — body */
+  --fs-body-lg: 1.125rem;   /* 18px  — subhead */
+  --fs-h4:      1.375rem;   /* 22px  — tile title */
+  --fs-h3:      1.875rem;   /* 30px  — section subhead */
+  --fs-h2:      2.75rem;    /* 44px  — section title */
+  --fs-h1:      clamp(2.75rem, 6vw + 1rem, 5.75rem); /* 44 → 92px fluid */
+  --fs-number:  clamp(3rem, 8vw, 6rem); /* giant process numbers */
+  --fs-stat:    clamp(2rem, 4vw, 3.5rem); /* proof bar numbers */
+
+  --lh-tight: 1.05;
+  --lh-snug:  1.2;
+  --lh-base:  1.5;
+  --lh-prose: 1.65;
+
+  --tracking-wide: 0.12em;
+  --tracking-wider: 0.18em;
+  --tracking-tight: -0.02em;
+
+  /* ---------- SPACING ---------- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 2.75rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+  --space-10: 8rem;
+  --space-11: 10rem;
+
+  --section-py: clamp(4rem, 10vw, 8rem);
+  --container-px: clamp(1.25rem, 4vw, 3rem);
+  --container-max: 1320px;
+  --container-narrow: 980px;
+
+  /* ---------- RADIUS / BORDER ----------
+     Softer system across the board — Apple-adjacent, not-quite-Apple. */
+  --radius-xs:   6px;    /* tags, small chips, inline pills */
+  --radius-sm:   10px;   /* small surfaces — badges, glance dividers */
+  --radius-md:   18px;   /* service / process / case cards, photos */
+  --radius-lg:   24px;   /* large cards — study cover, CTA block */
+  --radius-xl:   32px;   /* hero-scale cards if ever needed */
+  --radius-pill: 999px;  /* buttons, oval CTAs, nav island */
+  --border-thin: 1px;
+
+  /* ---------- SHADOWS ---------- */
+  --shadow-lift:        0 24px 70px -22px rgba(0, 0, 0, 0.65), 0 10px 28px -10px rgba(0, 0, 0, 0.45);
+  --shadow-glow:        0 0 40px rgba(120, 180, 240, 0.18);
+  --shadow-glow-strong: 0 0 60px rgba(120, 180, 240, 0.32);
+
+  /* ---------- MOTION ---------- */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --dur-instant: 120ms;
+  --dur-fast: 200ms;
+  --dur-base: 360ms;
+  --dur-slow: 600ms;
+  --dur-crawl: 1200ms;
+
+  /* ---------- Z ---------- */
+  --z-nav: 50;
+  --z-modal: 100;
+}

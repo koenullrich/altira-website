@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="NPSA case study — how Altira AI built a 14-step distributed scraping pipeline producing 50,000+ verified nonprofit decision-maker contacts at $0.04 per lead.">
+<title>NPSA — Altira AI Case Study</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../styles/tokens.css">
+<link rel="stylesheet" href="../styles/base.css">
+<link rel="stylesheet" href="../styles/components.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="container nav__inner">
+    <a href="../index.html" class="nav__brand" aria-label="Altira AI — home">
+      <img src="../assets/logo-lockup.png" alt="Altira AI" class="nav__logo">
+    </a>
+    <nav class="nav__links" aria-label="primary">
+      <a href="../index.html#work" class="nav__link">Work</a>
+      <a href="../index.html#process" class="nav__link">Process</a>
+      <a href="../index.html#about" class="nav__link">About</a>
+      <a href="../index.html#contact" class="nav__link">Contact</a>
+    </nav>
+    <a class="btn btn--ghost btn--sm" href="https://calendly.com/koenullrich/discovery-call" target="_blank" rel="noopener">
+      Book a Call <span class="btn__arrow">→</span>
+    </a>
+  </div>
+</header>
+
+<main>
+
+<article class="section study">
+  <div class="container container--narrow">
+
+    <a class="study__back" href="../index.html#work">
+      <span class="study__back__arrow">←</span> Back to all work
+    </a>
+
+    <header class="study__header" data-reveal>
+      <div class="study__meta">
+        <span>NPSA</span>
+        <span>Nonprofit Security Advisory</span>
+        <span>2025 · Ongoing</span>
+      </div>
+      <h1 class="study__title">A 14-step distributed pipeline — 50,000+ verified contacts across all 50 states.</h1>
+      <p class="study__subtitle">How we replaced a stale, expensive B2B database with a custom scraping and verification engine built specifically for the nonprofit vertical — at a fraction of the cost and multiples of the coverage.</p>
+    </header>
+
+    <div class="study__cover" data-reveal>
+      <img src="../assets/case-covers/npsa-cover.png" alt="NPSA case study cover">
+    </div>
+
+    <div class="study__glance" data-reveal>
+      <div>
+        <div class="glance__num"><span class="accent">50,000+</span></div>
+        <div class="glance__label">Verified decision-maker contacts</div>
+      </div>
+      <div>
+        <div class="glance__num">50 states</div>
+        <div class="glance__label">National coverage</div>
+      </div>
+      <div>
+        <div class="glance__num">~$0.04</div>
+        <div class="glance__label">Per verified lead</div>
+      </div>
+    </div>
+
+    <div class="study__body">
+
+      <section class="study__section" data-reveal>
+        <div class="study__section__label">The client</div>
+        <h2 class="study__section__title">A five-person firm with a national outbound mission.</h2>
+        <div class="study__section__prose">
+          <p>Nonprofit Security Advisors (NPSA) is a specialized consulting firm that helps churches, schools, and other nonprofit organizations secure federal and state grant funding for security infrastructure.</p>
+          <p>The firm's work depends on reaching the specific decision-makers inside each organization — senior pastors, business administrators, facilities directors, operations managers — the people who actually sign off on security upgrades. The team of five runs the full advisory and outreach motion end-to-end.</p>
+        </div>
+      </section>
+
+      <section class="study__section" data-reveal>
+        <div class="study__section__label">The problem</div>
+        <h2 class="study__section__title">The B2B data economics were broken.</h2>
+        <div class="study__section__prose">
+          <p>Getting in front of those decision-makers at scale was the bottleneck. NPSA had been relying on a major B2B contact database alongside a traditional cold email pipeline, and the economics were not working: high per-contact cost, poor coverage of the nonprofit vertical, and stale records that rarely captured the non-pastoral roles NPSA needed most.</p>
+          <p>Building a qualified outreach list meant manually supplementing the database, chasing down missing roles one organization at a time, and verifying emails before any record was usable. The process did not scale, and the quality of any given lead file drifted within weeks.</p>
+        </div>
+      </section>
+
+      <section class="study__section" data-reveal>
+        <div class="study__section__label">The build</div>
+        <h2 class="study__section__title">A custom pipeline, built for the nonprofit landscape.</h2>
+        <div class="study__section__prose">
+          <p>We approached the problem on two fronts. First, we facilitated NPSA's move off their existing cold-outreach infrastructure onto a modern email automation platform, resetting the deliverability floor and eliminating a meaningful chunk of monthly spend.</p>
+          <p>Second, we built a custom 14-step distributed scraping and verification pipeline designed specifically for the nonprofit landscape. The system discovers qualifying organizations via Google Places, visits each website with a headless browser, parses staff and leadership pages through a language model to extract decision-makers, filters by role, and verifies every email through Hunter.io.</p>
+          <p>The pipeline runs across multiple parallel workers on Railway — turning a state-level scrape into a multi-hour job instead of a multi-week one.</p>
+        </div>
+      </section>
+
+      <section class="study__section" data-reveal>
+        <div class="study__section__label">The new workflow</div>
+        <h2 class="study__section__title">An on-demand data engine.</h2>
+        <div class="study__section__prose">
+          <p>NPSA specifies a target state or region. The pipeline discovers every qualifying organization, visits each website, extracts the specific decision-maker roles the firm needs, verifies every contact, and returns a clean CSV.</p>
+          <p>Each record includes the person's name, title, direct email, phone number where available, and the source URL it was scraped from — <strong>every lead is independently verifiable</strong>.</p>
+        </div>
+      </section>
+
+      <section class="study__section" data-reveal>
+        <div class="study__section__label">The impact</div>
+        <h2 class="study__section__title">Outbound that scales with the market, not with headcount.</h2>
+        <div class="study__section__prose">
+          <p>Over <strong>50,000 verified decision-maker contacts</strong> have been produced across all <strong>50 U.S. states</strong>, at a cost of roughly <strong>$0.04 per lead</strong> — a fraction of what the firm's previous B2B data provider was charging for a fraction of the coverage.</p>
+          <p>What was once a manual research operation capped by staff capacity has become an on-demand data engine: a single lever NPSA can pull to generate a ready-to-use lead file for any state in the country. The firm's outbound motion now scales with the market, not with headcount.</p>
+          <p>The relationship is ongoing, and additional work is planned.</p>
+        </div>
+      </section>
+
+      <div class="study__quote" data-reveal>
+        <p class="study__quote__text">"NPSA is incredibly happy with your work."</p>
+        <div class="study__quote__author"><strong>Brad</strong> · CEO and Founder, NPSA</div>
+      </div>
+
+      <div class="study__cta" data-reveal>
+        <h3 class="study__cta__title">Lead data too expensive, too stale, or too thin?</h3>
+        <p class="study__cta__sub">If your outbound operation depends on lead data that's either too expensive, too stale, or too thin on the roles that matter — let's talk.</p>
+        <a class="btn btn--primary" href="https://calendly.com/koenullrich/discovery-call" target="_blank" rel="noopener">
+          Book a 15-minute scoping call <span class="btn__arrow">→</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</article>
+
+</main>
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__brand">
+      <img src="../assets/logo-lockup.png" alt="Altira AI" class="footer__logo">
+      <span class="footer__meta">Cape Coral, FL · © 2026</span>
+    </div>
+    <div class="footer__links">
+      <a href="https://www.linkedin.com/in/koenullrich/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://calendly.com/koenullrich/discovery-call" target="_blank" rel="noopener">Book a Call</a>
+    </div>
+  </div>
+</footer>
+
+<script src="../scripts/main.js"></script>
+</body>
+</html>
