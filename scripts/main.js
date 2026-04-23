@@ -26,23 +26,43 @@
     revealEls.forEach((el) => el.classList.add('is-visible'));
   }
 
-  // ---------- PROOF BAR COUNTERS ----------
+  // ---------- COUNTERS (count-up + live session tick) ----------
   const counters = document.querySelectorAll('[data-counter]');
+
+  const startLiveTicker = (el) => {
+    // Post-ramp: steady +1 every 500–1000ms, forever. Reads as
+    // one or two automations completing every second — live pulse.
+    if (!el.hasAttribute('data-ticker')) return;
+    const tick = () => {
+      const current = parseInt((el.textContent || '0').replace(/[^0-9]/g, ''), 10) || 0;
+      el.textContent = (current + 1).toLocaleString();
+      el.classList.add('is-ticking');
+      setTimeout(() => el.classList.remove('is-ticking'), 240);
+      setTimeout(tick, 500 + Math.random() * 500);
+    };
+    setTimeout(tick, 300);
+  };
+
   const animateCounter = (el) => {
+    // Phase 1: 22-second gradual climb with gentle smoothstep easing
+    // (3t^2 - 2t^3). Softer taper than smootherstep — the middle is
+    // closer to linear, the ends just ease rather than plateau, so
+    // the count visibly progresses the whole way up to the target.
     const target = parseFloat(el.dataset.counter);
     const suffix = el.dataset.suffix || '';
     const prefix = el.dataset.prefix || '';
-    const duration = 1400;
+    const duration = 22000;
     const startTime = performance.now();
-    const easeOutExpo = (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t));
+    const smoothstep = (t) => t * t * (3 - 2 * t);
 
     const isFloat = !Number.isInteger(target);
     const step = (now) => {
       const t = Math.min((now - startTime) / duration, 1);
-      const eased = easeOutExpo(t);
+      const eased = smoothstep(t);
       const val = target * eased;
       el.textContent = prefix + (isFloat ? val.toFixed(1) : Math.round(val).toLocaleString()) + suffix;
       if (t < 1) requestAnimationFrame(step);
+      else startLiveTicker(el);
     };
     requestAnimationFrame(step);
   };
@@ -76,22 +96,6 @@
     window.addEventListener('scroll', onScroll, { passive: true });
   }
 
-  // ---------- HERO MOUSE PARALLAX ----------
-  const heroAtmos = document.querySelector('.hero__atmos');
-  if (heroAtmos && !prefersReduced && !('ontouchstart' in window)) {
-    let rafId = null;
-    window.addEventListener('mousemove', (e) => {
-      if (rafId) return;
-      rafId = requestAnimationFrame(() => {
-        const x = (e.clientX / window.innerWidth) * 100;
-        const y = (e.clientY / window.innerHeight) * 100;
-        heroAtmos.style.setProperty('--mx', x + '%');
-        heroAtmos.style.setProperty('--my', y + '%');
-        rafId = null;
-      });
-    }, { passive: true });
-  }
-
   // ---------- SMOOTH ANCHOR SCROLL (with nav offset) ----------
   document.querySelectorAll('a[href^="#"]').forEach((link) => {
     link.addEventListener('click', (e) => {
@@ -106,110 +110,61 @@
     });
   });
 
-  // ---------- HERO PARTICLE NETWORK ----------
-  const canvas = document.querySelector('.hero__particles');
-  if (canvas && !prefersReduced) {
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-    let width = 0, height = 0, dpr = 1;
-    let mouseX = -9999, mouseY = -9999;
-    let animId = null;
+  // ---------- MAGNETIC CTA BUTTONS ----------
+  const magnets = document.querySelectorAll('.btn--primary, .btn--ghost');
+  if (!prefersReduced && !('ontouchstart' in window)) {
+    magnets.forEach((el) => {
+      const pull = 0.25;   // how hard the button follows the cursor (0..1)
+      const radius = 120;  // how close cursor must be for the effect
+      let raf = null;
 
-    const isWide = () => window.innerWidth > 900;
-    const COUNT = () => isWide() ? 80 : 38;
-    const LINK_DIST = () => isWide() ? 150 : 110;
+      const reset = () => {
+        el.style.transform = '';
+      };
 
-    const resize = () => {
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const rect = canvas.parentElement.getBoundingClientRect();
-      width = rect.width;
-      height = rect.height;
-      canvas.width = Math.floor(width * dpr);
-      canvas.height = Math.floor(height * dpr);
-      canvas.style.width = width + 'px';
-      canvas.style.height = height + 'px';
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    };
-
-    const init = () => {
-      particles = [];
-      const n = COUNT();
-      for (let i = 0; i < n; i++) {
-        particles.push({
-          x: Math.random() * width,
-          y: Math.random() * height,
-          vx: (Math.random() - 0.5) * 0.18,
-          vy: (Math.random() - 0.5) * 0.18,
-          r: Math.random() * 1.3 + 0.5,
+      el.addEventListener('mousemove', (e) => {
+        const rect = el.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const dx = e.clientX - cx;
+        const dy = e.clientY - cy;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist > radius) { reset(); return; }
+        if (raf) cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => {
+          el.style.transform = `translate(${dx * pull}px, ${dy * pull}px)`;
         });
-      }
-    };
+      });
+      el.addEventListener('mouseleave', reset);
+    });
+  }
 
-    const draw = () => {
-      ctx.clearRect(0, 0, width, height);
+  // ---------- TILT ON CASE COVERS ----------
+  const cases = document.querySelectorAll('.case');
+  if (!prefersReduced && !('ontouchstart' in window)) {
+    cases.forEach((card) => {
+      const cover = card.querySelector('.case__cover img');
+      if (!cover) return;
+      const max = 6; // max rotation in degrees
+      let raf = null;
 
-      for (let i = 0; i < particles.length; i++) {
-        const p = particles[i];
-        p.x += p.vx; p.y += p.vy;
-        if (p.x < -10) p.x = width + 10;
-        if (p.x > width + 10) p.x = -10;
-        if (p.y < -10) p.y = height + 10;
-        if (p.y > height + 10) p.y = -10;
-
-        // subtle cursor attraction
-        const dxm = mouseX - p.x, dym = mouseY - p.y;
-        const dm = Math.sqrt(dxm * dxm + dym * dym);
-        if (dm < 180) {
-          p.x += dxm * 0.0004;
-          p.y += dym * 0.0004;
-        }
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(120, 180, 240, 0.55)';
-        ctx.fill();
-      }
-
-      // connection lines
-      const linkMax = LINK_DIST();
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const a = particles[i], b = particles[j];
-          const dx = a.x - b.x, dy = a.y - b.y;
-          const d = Math.sqrt(dx * dx + dy * dy);
-          if (d < linkMax) {
-            const alpha = 0.22 * (1 - d / linkMax);
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.strokeStyle = 'rgba(120, 180, 240, ' + alpha + ')';
-            ctx.lineWidth = 0.6;
-            ctx.stroke();
-          }
-        }
-      }
-
-      animId = requestAnimationFrame(draw);
-    };
-
-    const onMove = (e) => {
-      const rect = canvas.getBoundingClientRect();
-      mouseX = e.clientX - rect.left;
-      mouseY = e.clientY - rect.top;
-    };
-    const onLeave = () => { mouseX = -9999; mouseY = -9999; };
-
-    resize();
-    init();
-    draw();
-    window.addEventListener('resize', () => { cancelAnimationFrame(animId); resize(); init(); draw(); }, { passive: true });
-    window.addEventListener('mousemove', onMove, { passive: true });
-    document.addEventListener('mouseleave', onLeave);
-
-    // Pause when tab is hidden to save CPU
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) { cancelAnimationFrame(animId); animId = null; }
-      else if (!animId) { draw(); }
+      card.addEventListener('mouseenter', () => {
+        cover.style.transition = 'transform 120ms var(--ease-out)';
+      });
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const px = ((e.clientX - rect.left) / rect.width) - 0.5;
+        const py = ((e.clientY - rect.top) / rect.height) - 0.5;
+        if (raf) cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => {
+          cover.style.transform =
+            `scale(1.04) rotateX(${-py * max}deg) rotateY(${px * max}deg)`;
+        });
+      });
+      card.addEventListener('mouseleave', () => {
+        cover.style.transition = '';
+        cover.style.transform = '';
+      });
     });
   }
 })();

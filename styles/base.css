@@ -23,18 +23,9 @@ body {
   overflow-x: hidden;
 }
 
-/* Subtle dot grid across the whole page — matches the old-site texture.
-   Very faint; fades top/bottom so it breathes. */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.035) 1px, transparent 1.5px);
-  background-size: 28px 28px;
-  mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 82%, transparent 100%);
-  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 82%, transparent 100%);
+main, footer {
+  position: relative;
+  z-index: 2;
 }
 
 img, svg, video { display: block; max-width: 100%; height: auto; }
