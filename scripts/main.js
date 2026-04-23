@@ -29,25 +29,18 @@
   // ---------- COUNTERS (count-up + live session tick) ----------
   const counters = document.querySelectorAll('[data-counter]');
 
-  const startLiveTicker = (el) => {
-    // Post-ramp: steady +1 every 500–1000ms, forever. Reads as
-    // one or two automations completing every second — live pulse.
-    if (!el.hasAttribute('data-ticker')) return;
-    const tick = () => {
-      const current = parseInt((el.textContent || '0').replace(/[^0-9]/g, ''), 10) || 0;
-      el.textContent = (current + 1).toLocaleString();
-      el.classList.add('is-ticking');
-      setTimeout(() => el.classList.remove('is-ticking'), 240);
-      setTimeout(tick, 500 + Math.random() * 500);
-    };
-    setTimeout(tick, 300);
+  const revealPlus = (el) => {
+    // When the counter lands, fade in the adjacent "+" sibling.
+    // CSS transitions on max-width + opacity handle the push.
+    const plus = el.parentElement && el.parentElement.querySelector('.hero__counter__plus');
+    if (plus) setTimeout(() => plus.classList.add('is-visible'), 250);
   };
 
   const animateCounter = (el) => {
-    // Phase 1: 22-second gradual climb with gentle smoothstep easing
-    // (3t^2 - 2t^3). Softer taper than smootherstep — the middle is
-    // closer to linear, the ends just ease rather than plateau, so
-    // the count visibly progresses the whole way up to the target.
+    // 22-second gradual climb to target with gentle smoothstep easing
+    // (3t^2 - 2t^3). Soft taper at both ends, steady middle so the
+    // count visibly progresses the whole way. Stops at the target —
+    // no live tick afterward; the "+" reveals instead to signal "and counting."
     const target = parseFloat(el.dataset.counter);
     const suffix = el.dataset.suffix || '';
     const prefix = el.dataset.prefix || '';
@@ -62,7 +55,7 @@
       const val = target * eased;
       el.textContent = prefix + (isFloat ? val.toFixed(1) : Math.round(val).toLocaleString()) + suffix;
       if (t < 1) requestAnimationFrame(step);
-      else startLiveTicker(el);
+      else revealPlus(el);
     };
     requestAnimationFrame(step);
   };

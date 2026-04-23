@@ -286,7 +286,13 @@
   animation: fadeUp var(--dur-slow) var(--ease-out) 1700ms forwards;
 }
 
-.hero__counter__num {
+.hero__counter__stat {
+  display: inline-flex;
+  align-items: baseline;
+}
+
+.hero__counter__num,
+.hero__counter__plus {
   font-family: var(--font-sans);
   font-size: 1.75rem;
   font-weight: 600;
@@ -296,14 +302,26 @@
   text-shadow: 0 0 24px var(--color-accent-glow);
   text-transform: none;
   line-height: 1;
+  display: inline-block;
 }
 
-.hero__counter__num.is-ticking {
-  animation: counterTick 260ms var(--ease-out);
+/* The + starts collapsed and invisible. When the ramp lands on 12k,
+   JS adds .is-visible — the element animates to its natural width,
+   gently pushing the label to the right as it fades in. */
+.hero__counter__plus {
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  margin-left: 0;
+  transition:
+    max-width 650ms var(--ease-out),
+    opacity 500ms var(--ease-out) 150ms,
+    margin-left 650ms var(--ease-out);
 }
-@keyframes counterTick {
-  0%   { text-shadow: 0 0 32px var(--color-accent-glow-strong); }
-  100% { text-shadow: 0 0 24px var(--color-accent-glow); }
+.hero__counter__plus.is-visible {
+  max-width: 1.5em;
+  opacity: 1;
+  margin-left: 0.05em;
 }
 
 .hero__counter__label {
