@@ -41,7 +41,7 @@
   gap: var(--space-6);
 }
 .nav__brand { display: inline-flex; align-items: center; }
-.nav__logo { height: 24px; width: auto; filter: brightness(0) invert(1); }
+.nav__logo { height: 40px; width: auto; filter: brightness(0) invert(1); }
 .nav__links { display: flex; gap: var(--space-7); }
 .nav__link {
   font-family: var(--font-sans);
@@ -486,7 +486,7 @@
   color: var(--color-text-muted);
 }
 .footer__brand { display: flex; align-items: center; gap: 14px; }
-.footer__logo { height: 18px; width: auto; filter: brightness(0) invert(1); opacity: 0.6; }
+.footer__logo { height: 28px; width: auto; filter: brightness(0) invert(1); opacity: 0.7; }
 .footer__meta { color: var(--color-text-muted); }
 .footer__links { display: flex; gap: var(--space-6); }
 .footer__links a { transition: color var(--dur-fast); }
